@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Stack App (Student Build)</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="not-authenticated">
+
+    <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="brand">Full-Stack App Ravanes</div>
+
+    <div class="nav-right">
+
+        <!-- Logged out links -->
+        <div class="role-logged-out nav-vertical">
+            <a class="nav-link" href="#/login">Login</a>
+            <a class="nav-link" href="#/register">Register</a>
+        </div>
+
+        <!-- Logged in dropdown -->
+        <div class="dropdown role-logged-in">
+           <button id="nav-username" class="dropdown-btn">
+              
+            </button>
+            <div class="dropdown-menu" id="nav-dropdown-menu">
+                <a href="#/profile">Profile</a>
+                <a href="#/employees" class="role-admin">Employees</a>
+                <a href="#/accounts" class="role-admin">Accounts</a>
+                <a href="#/departments" class="role-admin">Departments</a>
+                <a href="#/requests">My Requests</a>
+                <hr>
+                <a href="#" id="logoutBtn" class="logout">Logout</a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+
+
+
+    <!-- MAIN AREA -->
+    <main>
+<!-- home page -->
+        <section id="home-page" class="page active">
+    <!-- Welcome Message -->
+    <h1>Welcome to Full-Stack App</h1>
+
+    <!-- Description with bullet points -->
+    <p>A static prototype before backend integration. Simulates:</p>
+    <ul>
+        <li>Email registration + fake verification</li>
+        <li>Login with JWT-like token simulation</li>
+        <li>Role based UI (Admin/User)</li>
+        <li>CRUD for Employees, Departments, Requests</li>
+    </ul>
+
+    <!-- Warning -->
+    <div class="warning-box">
+        ⚠️ All data is stored in localStorage. Refresh to reset.
+    </div>
+
+    <!-- Get Started button -->
+    <button id="getStartedBtn" class="btn primary">Get Started →</button>
+</section>
+
+<!-- register page-->
+        <section id="register-page" class="page">
+            <h1>Register</h1>
+            <form id="registerForm">
+                <input class="input" id="regFirst" placeholder="First Name" required>
+                <input class="input" id="regLast" placeholder="Last Name" required>
+                <input class="input" id="regEmail" placeholder="Email" required>
+                <input class="input" id="regPassword" type="password" placeholder="Password" required>
+                <div class="form-buttons">
+            <button type="submit" class="btn">Sign up</button>
+            <button type="button" class="btn cancel" id="registerCancelBtn">Cancel</button>
+        </div>
+            </form>
+        </section>
+<!-- verify email page -->
+        <section id="verify-email-page" class="page">
+            <h1>Email Verification</h1>
+            <p> For demo purposes, click below to simulate verification.</p>
+            <p id="verifyMessage"></p>
+            <button id="verifyBtn" class="btn success">Simulate Verification</button>
+            <button id="goLogin" class="loginForm">Go to Login</button>
+        </section>
+<!-- login page -->
+        <section id="login-page" class="page">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <input class="input" id="loginEmail" placeholder="Email" required>
+                <input class="input" id="loginPassword" type="password" placeholder="Password" required>
+                <div class="form-buttons">
+            <button type="submit" class="btn">Login</button>
+            <button type="button" class="btn cancel" id="loginCancelBtn">Cancel</button>
+        </div>
+            </form>
+        </section>
+<!-- profile page -->
+       <section id="profile-page" class="page">
+    <h1>Profile</h1>
+    <div id="profileContent" class="profile-card"></div>
+</section>
+<!-- account page -->
+        <section id="accounts-page" class="page">
+
+    <!-- Header -->
+    <div class="account-header">
+        <h1>Accounts</h1>
+        <button id="addAccountBtn" class="btn success">+ Add Account</button>
+    </div>
+
+    <!-- Accounts Table -->
+    <table id="accountsTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Verified</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Admin User</td>
+                <td>admin@example.com</td>
+                <td>Admin</td>
+                <td>✓</td>
+                <td>
+                    <button class="action-btn edit-btn">Edit</button>
+                    <button class="action-btn reset-btn">Reset-Password</button>
+                    <button class="action-btn delete-btn">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Add/Edit Account Form -->
+    <form id="accountForm">
+        
+        <h2>Add / Edit Account</h2>
+        <hr>
+
+        <label>First Name</label>
+        <input type="text" id="accFirstName" class="input">
+
+        <label>Last Name</label>
+        <input type="text" id="accLastName" class="input">
+
+        <label>Email</label>
+        <input type="email" id="accEmail" class="input">
+
+        <label>Password</label>
+        <input type="password" id="accPassword" class="input">
+
+        <label>Role</label>
+        <select id="accRole" class="input">
+            <option>User</option>
+            <option>Admin</option>
+        </select>
+
+        <label class="checkbox-label">
+            <input type="checkbox" id="accVerified">
+            Verified
+        </label>
+
+        <div class="form-actions">
+            <button type="submit" class="btn success">Save</button>
+            <button type="button" id="cancelAccount" class="btn cancel">Cancel</button>
+        </div>
+
+    </form>
+
+</section>
+
+
+
+
+<!-- employee page -->
+     <section id="employees-page" class="page">
+    <div class="employees-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h1>Employees</h1>
+        <button id="addEmployeeBtn" class="btn success">+ Add Employee</button>
+    </div>
+ <!-- Employees Table -->
+    <table id="employeesTable" style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name (Email)</th>
+                <th>Position</th>
+                <th>Department</th>
+                <th>Hire Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="6" style="text-align:center;">No employees recorded yet.</td></tr>
+        </tbody>
+    </table>
+    <!-- Add/Edit Employee Form (hidden by default) -->
+ <!-- Add/Edit Employee Form (hidden by default, stacked layout) -->
+<form id="employeeForm" style="display:none; margin:0; padding:1rem; border:1px solid #ccc; border-radius:8px; background:#f9f9f9;">
+    <h3>Add / Edit Employee</h3>
+    
+    <div style="margin-bottom:0.5rem;">
+        <label for="empId">Employee ID</label><br>
+        <input id="empId" class="input" placeholder="Enter Employee ID" style="width:100%;">
+    </div>
+
+    <div style="margin-bottom:0.5rem;">
+        <label for="empEmail">User Email</label><br>
+        <input id="empEmail" class="input" placeholder="Enter User Email" style="width:100%;">
+    </div>
+
+    <div style="margin-bottom:0.5rem;">
+        <label for="empPosition">Position</label><br>
+        <input id="empPosition" class="input" placeholder="Enter Position" style="width:100%;">
+    </div>
+
+    <div style="margin-bottom:0.5rem;">
+        <label for="empDept">Department</label><br>
+        <select id="empDept" class="input" style="width:100%;"></select>
+    </div>
+
+    <div style="margin-bottom:0.5rem;">
+        <label for="empHireDate">Hire Date</label><br>
+        <input id="empHireDate" class="input" type="date" style="width:100%;">
+    </div>
+
+    <div style="margin-top:1rem;">
+        <button type="submit" class="btn success">Save</button>
+        <button type="button" id="cancelEmployee" class="btn">Cancel</button>
+    </div>
+</form>
+
+
+   
+</section>
+
+
+
+
+<!-- departments page -->
+    <section id="departments-page" class="page">
+
+    <div class="departments-header" 
+         style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h1>Departments</h1>
+        <button id="addDeptBtn" class="btn success">+ Add Department</button>
+    </div>
+
+    <!-- Departments Table -->
+    <table class="department-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th style="width: 140px;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody id="departmentTableBody">
+            <tr>
+                <td>Engineering</td>
+                <td>Software Team</td>
+                <td>
+                    <div class="department-actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>HR</td>
+                <td>Human Resources</td>
+                <td>
+                    <div class="department-actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Add/Edit Department Form (hidden by default) -->
+    <form id="departmentForm" 
+          style="display:none; margin-top:1.5rem; padding:1rem; border:1px solid #ccc; 
+                 border-radius:8px; background:#f9f9f9;">
+
+        <h3>Add / Edit Department</h3>
+
+        <div style="margin-bottom:0.5rem;">
+            <label>Department Name</label><br>
+            <input id="deptName" class="input" placeholder="Enter Department Name" style="width:100%;">
+        </div>
+
+        <div style="margin-bottom:0.5rem;">
+            <label>Description</label><br>
+            <input id="deptDescription" class="input" placeholder="Enter Description" style="width:100%;">
+        </div>
+
+        <div style="margin-top:1rem;">
+            <button type="submit" class="btn success">Save</button>
+            <button type="button" id="cancelDept" class="btn">Cancel</button>
+        </div>
+
+    </form>
+
+</section>
+
+
+<!-- request page -->
+       <section id="requests-page" class="page">
+
+    <!-- Header -->
+    <div class="requests-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h1>My Requests</h1>
+        <button id="newRequestBtn" class="btn success">+ New Request</button>
+    </div>
+
+    <!-- Requests Table -->
+    <table id="requestsTable" style="width:100%; border-collapse:collapse; background:white; border-radius:8px; overflow:hidden;">
+        <thead>
+            <tr style="background:#333; color:white;">
+                <th style="padding:10px;">Type</th>
+                <th style="padding:10px;">Items</th>
+                <th style="padding:10px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="3" style="text-align:center; padding:10px;">No requests yet.</td></tr>
+        </tbody>
+    </table>
+
+</section>
+
+<!-- New Request Modal -->
+<div id="requestModal" class="modal">
+  <div class="modal-content" style="max-width:600px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2>New Request</h2>
+      <button id="closeRequestModal" class="btn cancel" style="padding:5px 10px;">×</button>
+    </div>
+    <hr>
+
+    <form id="requestForm">
+      <label>Type</label>
+      <select id="reqType" class="input" required>
+          <option value="">-- Select Type --</option>
+          <option value="leave">Leave</option>
+          <option value="item">Item</option>
+      </select>
+
+      <div id="requestFieldsContainer">
+        <!-- Dynamic fields will appear here -->
+      </div>
+
+      <div style="margin-top:15px;">
+        <button type="submit" class="btn success">Submit Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
